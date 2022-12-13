@@ -19,6 +19,8 @@ public class Potion : Item
 
     public override void Use()
     {
-        throw new NotImplementedException();
+        StatManager.Instance.healDamage(healingAmount);
+        Debug.Log("healed");
+        Remove();
     }
 }

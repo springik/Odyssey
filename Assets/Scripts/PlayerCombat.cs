@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class PlayerCombat : MonoBehaviour
     GameObject DrawPoint;
     [SerializeField]
     float range;
+    [SerializeField]
+    float invTime;
+    float currInvTime;
+    Collision2D collision_;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +26,10 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             CastRay();
+        }
+        if (currInvTime > 0 && collision_ != null)
+        {
+            ProcessCooldownE(collision_.collider);
         }
     }
     void CastRay()
@@ -35,10 +44,60 @@ public class PlayerCombat : MonoBehaviour
                 Debug.DrawRay(DrawPoint.transform.position, dir, Color.red);
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
-                    //dát dmg nepriteli
-                    Debug.Log("Tož jest dežosprecht");
+                    //dï¿½t dmg nepriteli
+                    Debug.Log("Toï¿½ jest deï¿½osprecht");
                 }
             }
             catch { }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log(collision);
+            EnemyBehaviour enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
+            StatManager.Instance.takeDamage(enemyBehaviour.enemyObject.dmg.currVal);
+            collision.collider.enabled = false;
+            collision_ = collision;
+            Debug.Log(StatManager.getStatOfType("HP").realVal);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        collision_ = collision;
+        StartCoroutine(invCoroutine(collision.collider));
+    }
+    IEnumerator invCoroutine(Collider2D collider) //TODO: FIX COROUTINE
+    {
+        ProcessCooldownE(collider);
+        yield return null;
+    }
+
+    private void ProcessCooldownE(Collider2D collider)
+    {
+        SetAttackCooldownE();
+        Debug.Log(currInvTime);
+        currInvTime -= Time.deltaTime;
+        Debug.Log(currInvTime);
+        if (!IsInvincible())
+        {
+            collider.enabled = true;
+        }
+    }
+
+    private void SetAttackCooldownE()
+    {
+        if (currInvTime <= 0)
+        {
+            currInvTime = invTime;
+        }
+    }
+    bool IsInvincible()
+    {
+        if (currInvTime > 0) 
+        {
+            return true;
+        }
+        return false;
     }
 }

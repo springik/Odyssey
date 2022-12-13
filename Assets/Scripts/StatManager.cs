@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,7 +34,11 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
-        stats.ForEach(item => item.CalculateStat());
+        foreach (Stat stat in stats)
+        {
+            stat.CalculateStat();
+            stat.calculateRealVal();
+        }
         expReq = level * expBase;
         //addPoint.AddListener(AddPointToStat);
     }
@@ -66,6 +71,14 @@ public class StatManager : MonoBehaviour
                 statPoints--;
             }
         }
+    }
+    public void takeDamage(int amount)
+    {
+        getStatOfType("HP").decreaseRealVal(amount);
+    }
+    public void healDamage(int amount)
+    {
+        getStatOfType("HP").increaseRealVal(amount);
     }
 
     public static Stat getStatOfType(string type)

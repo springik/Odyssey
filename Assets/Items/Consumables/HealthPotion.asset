@@ -7,12 +7,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3d81f9ec089a2943ac74072e1760880, type: 3}
   m_Name: HealthPotion
   m_EditorClassIdentifier: 
   name: Health Potion
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cebac12728bea2c4396771ea9db919fa, type: 3}
   isDefault: 0
   percentageHealingAmount: 5

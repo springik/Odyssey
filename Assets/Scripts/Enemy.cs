@@ -7,9 +7,9 @@ using UnityEngine;
 public class Enemy : ScriptableObject
 {
     [SerializeField]
-    Stat hp;
+    public Stat hp { get; set; }
     [SerializeField]
-    Stat dmg;
+    public Stat dmg { get; set; }
     [SerializeField]
     Sprite sprite;
     [SerializeField]

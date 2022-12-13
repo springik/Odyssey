@@ -3496,6 +3496,7 @@ GameObject:
   - component: {fileID: 572872285}
   - component: {fileID: 572872284}
   - component: {fileID: 572872286}
+  - component: {fileID: 572872287}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Enemy
@@ -3586,6 +3587,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &572872287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572872283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99d8680eaa487b469a6965bd7a072fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1596929383}
+  moveSpeed: 0
+  enemyObject: {fileID: 11400000, guid: e976478005425b14eb1f6251a218a4a7, type: 2}
 --- !u!1 &629439795
 GameObject:
   m_ObjectHideFlags: 0
@@ -6013,6 +6029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DrawPoint: {fileID: 1519607373}
   range: 1.5
+  invTime: 10
 --- !u!1818360609 &1596929390
 RotationConstraint:
   m_ObjectHideFlags: 0
@@ -6322,7 +6339,7 @@ GameObject:
   - component: {fileID: 1710446709}
   - component: {fileID: 1710446710}
   m_Layer: 0
-  m_Name: Square
+  m_Name: HPPot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6385,7 +6402,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: cebac12728bea2c4396771ea9db919fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6450,7 +6467,7 @@ PrefabInstance:
     - target: {fileID: 7594630462446234085, guid: b6f729248dd051249a96be39edf2d805, type: 3}
       propertyPath: item
       value: 
-      objectReference: {fileID: 11400000, guid: 5e2962a2a5da4e8499cc6bc433bb7fd8, type: 2}
+      objectReference: {fileID: 11400000, guid: efa6cad3e56709943b80d4886774a418, type: 2}
     - target: {fileID: 7594630462446234085, guid: b6f729248dd051249a96be39edf2d805, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -6565,10 +6582,10 @@ MonoBehaviour:
   stats:
   - type: HP
     baseVal: 30
-    maxVal: 150
+    maxVal: 300
   - type: DMG
-    baseVal: 5
-    maxVal: 50
+    baseVal: 30
+    maxVal: 90
   - type: ARM
     baseVal: 15
     maxVal: 150
@@ -7410,6 +7427,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1596929383}
+    - target: {fileID: 4349384421115384325, guid: d7ef9c7622e651048a797566c2277e1c, type: 3}
+      propertyPath: moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4349384421115384325, guid: d7ef9c7622e651048a797566c2277e1c, type: 3}
+      propertyPath: enemyObject
+      value: 
+      objectReference: {fileID: 11400000, guid: e976478005425b14eb1f6251a218a4a7, type: 2}
     - target: {fileID: 4349384421115384326, guid: d7ef9c7622e651048a797566c2277e1c, type: 3}
       propertyPath: m_Name
       value: Enemy

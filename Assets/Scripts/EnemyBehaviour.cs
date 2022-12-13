@@ -9,6 +9,8 @@ public class EnemyBehaviour : MonoBehaviour
     GameObject target;
     [SerializeField]
     float moveSpeed;
+    [SerializeField]
+    public Enemy enemyObject;
 
     // Update is called once per frame
     void Update()
