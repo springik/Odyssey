@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5498d40fee14c0b47878d060898e577c, type: 3}
   m_Name: SwordRoman
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e14ce57343895044b82024aae8f0c32d, type: 3}
+  hp:
+    type: HP
+    baseVal: 15
+    maxVal: 30
+  dmg:
+    type: DMG
+    baseVal: 5
+    maxVal: 15
+  sprite: {fileID: 21300000, guid: 47fc11e21f67b934eb7b96bdd94ae423, type: 3}
   enemyName: Roman Swordsman
   lootTable:
   - {fileID: 11400000, guid: efa6cad3e56709943b80d4886774a418, type: 2}

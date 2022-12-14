@@ -7,11 +7,11 @@ using UnityEngine;
 public class Enemy : ScriptableObject
 {
     [SerializeField]
-    public Stat hp { get; set; }
+    public Stat hp;
     [SerializeField]
-    public Stat dmg { get; set; }
+    public Stat dmg;
     [SerializeField]
-    Sprite sprite;
+    public Sprite sprite;
     [SerializeField]
     public string enemyName;
     public static List<Enemy> enemyList { get; private set; } = new List<Enemy>();

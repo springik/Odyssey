@@ -30,6 +30,7 @@ public class StatManager : MonoBehaviour
     [SerializeField]
     float expBase = 300;
     float expReq;
+    public UnityAction<float> statsChanged;
     //public UnityEvent<string> addPoint;
 
     private void Start()
@@ -39,6 +40,7 @@ public class StatManager : MonoBehaviour
             stat.CalculateStat();
             stat.calculateRealVal();
         }
+        //statsChanged.Invoke(getStatOfType("HP").realVal);
         expReq = level * expBase;
         //addPoint.AddListener(AddPointToStat);
     }
@@ -67,18 +69,25 @@ public class StatManager : MonoBehaviour
         {
             if (stat.type == type)
             {
-                stat.currVal++;
+                stat.AddPoint();
                 statPoints--;
             }
         }
+        //statsChanged.Invoke(getStatOfType("HP").realVal);
     }
     public void takeDamage(int amount)
     {
+        Debug.Log("Dal dmg");
+        amount -= getStatOfType("ARM").currVal;
         getStatOfType("HP").decreaseRealVal(amount);
+        //statsChanged.Invoke(getStatOfType("HP").realVal);
     }
     public void healDamage(int amount)
     {
+        //Debug.Log(getStatOfType("HP").type);
         getStatOfType("HP").increaseRealVal(amount);
+        //Debug.Log(getStatOfType("HP").realVal);
+        //statsChanged.Invoke(getStatOfType("HP").realVal);
     }
 
     public static Stat getStatOfType(string type)

@@ -11,7 +11,12 @@ public class EnemyBehaviour : MonoBehaviour
     float moveSpeed;
     [SerializeField]
     public Enemy enemyObject;
-
+    SpriteRenderer childRenderer;
+    private void Start()
+    {
+        childRenderer = GetComponentInChildren<SpriteRenderer>();
+        childRenderer.sprite = enemyObject?.sprite;
+    }
     // Update is called once per frame
     void Update()
     {

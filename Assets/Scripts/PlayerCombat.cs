@@ -13,7 +13,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     float invTime;
     float currInvTime;
-    Collision2D collision_;
+    Collider2D collision_;
+    EnemyBehaviour enemyBehaviour;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +28,10 @@ public class PlayerCombat : MonoBehaviour
         {
             CastRay();
         }
-        if (currInvTime > 0 && collision_ != null)
+        if (currInvTime > 0 && collision_ != null && collision_.gameObject.CompareTag("Enemy"))
         {
-            ProcessCooldownE(collision_.collider);
+            //Debug.Log(collision_);
+            ProcessCooldownE(collision_);
         }
     }
     void CastRay()
@@ -50,12 +52,15 @@ public class PlayerCombat : MonoBehaviour
             }
             catch { }
     }
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log(collision);
-            EnemyBehaviour enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
+            enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
+            Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>());
+            Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>().enemyObject.dmg);
             StatManager.Instance.takeDamage(enemyBehaviour.enemyObject.dmg.currVal);
             collision.collider.enabled = false;
             collision_ = collision;
@@ -65,20 +70,35 @@ public class PlayerCombat : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         collision_ = collision;
-        StartCoroutine(invCoroutine(collision.collider));
-    }
-    IEnumerator invCoroutine(Collider2D collider) //TODO: FIX COROUTINE
+        ProcessCooldownE(collision.collider);
+    }*/
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        ProcessCooldownE(collider);
-        yield return null;
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            //Debug.Log(collision);
+            enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
+            //Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>());
+            //Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>().enemyObject.dmg);
+            Debug.Log(enemyBehaviour.enemyObject.dmg.currVal);
+            StatManager.Instance.takeDamage(enemyBehaviour.enemyObject.dmg.currVal);
+            collision.enabled = false;
+            collision_ = collision;
+            Debug.Log(StatManager.getStatOfType("HP").realVal);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        collision_ = collision;
+        ProcessCooldownE(collision);
     }
 
     private void ProcessCooldownE(Collider2D collider)
     {
         SetAttackCooldownE();
-        Debug.Log(currInvTime);
+        //Debug.Log(currInvTime);
         currInvTime -= Time.deltaTime;
-        Debug.Log(currInvTime);
+        //Debug.Log(currInvTime);
         if (!IsInvincible())
         {
             collider.enabled = true;

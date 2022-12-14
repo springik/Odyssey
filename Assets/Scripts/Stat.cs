@@ -14,16 +14,19 @@ public class Stat
     public int currVal { get; set; }
     [SerializeField]
     int maxVal;
-    int points = 1;
+    int points = 0;
     public int realVal { get; private set; }
 
     public void decreaseRealVal(int amount)
     {
-        realVal -= amount;
+        if (realVal > 0)
+            realVal -= amount;
     }
     public void increaseRealVal(int amount)
     {
-        realVal += amount;
+        if(realVal < currVal)
+            realVal += amount;
+        Debug.Log(this.realVal);
     }
     public void calculateRealVal()
     {
@@ -31,9 +34,9 @@ public class Stat
     }
     public void CalculateStat()
     {
-        this.currVal = this.baseVal += this.baseVal * this.points;
+        this.currVal = this.baseVal += this.points * 10;
     }
-    public void AddPoint(string type)
+    public void AddPoint()
     {
         if (points >= maxVal)
         {
