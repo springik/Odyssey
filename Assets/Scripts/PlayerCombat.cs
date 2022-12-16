@@ -10,15 +10,15 @@ public class PlayerCombat : MonoBehaviour
     GameObject DrawPoint;
     [SerializeField]
     float range;
+    EnemyStats enemyStats;
+    PlayerStats playerStats;
     [SerializeField]
-    float invTime;
-    float currInvTime;
-    Collider2D collision_;
-    EnemyBehaviour enemyBehaviour;
+    Animator animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerStats = GetComponent<PlayerStats>();
+        Debug.Log(animator);
     }
 
     // Update is called once per frame
@@ -28,96 +28,26 @@ public class PlayerCombat : MonoBehaviour
         {
             CastRay();
         }
-        if (currInvTime > 0 && collision_ != null && collision_.gameObject.CompareTag("Enemy"))
-        {
-            //Debug.Log(collision_);
-            ProcessCooldownE(collision_);
-        }
     }
     void CastRay()
     {
-            try
+        try
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 dir = mousePos - DrawPoint.transform.position;
+            dir.Normalize();
+            RaycastHit2D hit = Physics2D.Raycast(DrawPoint.transform.position, dir, range);
+            //Debug.DrawRay(DrawPoint.transform.position, dir, Color.red);
+            animator.SetTrigger("Attack");
+            if (hit.collider.gameObject.CompareTag("Enemy"))
             {
-                Vector3 mousePos = Input.mousePosition;
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-                Vector2 dir = mousePos - DrawPoint.transform.position;
-                dir.Normalize();
-                RaycastHit2D hit = Physics2D.Raycast(DrawPoint.transform.position, dir, range);
-                Debug.DrawRay(DrawPoint.transform.position, dir, Color.red);
-                if (hit.collider.gameObject.CompareTag("Enemy"))
-                {
-                    //d�t dmg nepriteli
-                    Debug.Log("To� jest de�osprecht");
-                }
+                //deal dmg
+                Debug.Log("To je enemák");
+                enemyStats = hit.collider.gameObject.GetComponent<EnemyStats>();
+                enemyStats.takeDamage(playerStats.dmg.GetTotalValue());
             }
-            catch { }
-    }
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log(collision);
-            enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
-            Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>());
-            Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>().enemyObject.dmg);
-            StatManager.Instance.takeDamage(enemyBehaviour.enemyObject.dmg.currVal);
-            collision.collider.enabled = false;
-            collision_ = collision;
-            Debug.Log(StatManager.getStatOfType("HP").realVal);
         }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        collision_ = collision;
-        ProcessCooldownE(collision.collider);
-    }*/
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            //Debug.Log(collision);
-            enemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
-            //Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>());
-            //Debug.Log(collision.gameObject.GetComponent<EnemyBehaviour>().enemyObject.dmg);
-            Debug.Log(enemyBehaviour.enemyObject.dmg.currVal);
-            StatManager.Instance.takeDamage(enemyBehaviour.enemyObject.dmg.currVal);
-            collision.enabled = false;
-            collision_ = collision;
-            Debug.Log(StatManager.getStatOfType("HP").realVal);
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        collision_ = collision;
-        ProcessCooldownE(collision);
-    }
-
-    private void ProcessCooldownE(Collider2D collider)
-    {
-        SetAttackCooldownE();
-        //Debug.Log(currInvTime);
-        currInvTime -= Time.deltaTime;
-        //Debug.Log(currInvTime);
-        if (!IsInvincible())
-        {
-            collider.enabled = true;
-        }
-    }
-
-    private void SetAttackCooldownE()
-    {
-        if (currInvTime <= 0)
-        {
-            currInvTime = invTime;
-        }
-    }
-    bool IsInvincible()
-    {
-        if (currInvTime > 0) 
-        {
-            return true;
-        }
-        return false;
+        catch { }
     }
 }

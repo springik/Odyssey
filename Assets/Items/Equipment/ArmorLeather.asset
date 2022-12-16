@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9822a93b2d581824aad44c9186b4b76e, type: 3}
   m_Name: ArmorLeather
   m_EditorClassIdentifier: 
-  name: "Ko\u017Een\xE1 zbroj"
-  icon: {fileID: 21300000, guid: ac47ed8ccc79cf04dae198b9cc5b3a6f, type: 3}
+  name: Leather Armor
+  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   isDefault: 0
   equipmentSlot: 1
   defenseModifier: 5

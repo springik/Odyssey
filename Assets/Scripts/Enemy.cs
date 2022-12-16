@@ -7,32 +7,10 @@ using UnityEngine;
 public class Enemy : ScriptableObject
 {
     [SerializeField]
-    public Stat hp;
-    [SerializeField]
-    public Stat dmg;
-    [SerializeField]
     public Sprite sprite;
     [SerializeField]
     public string enemyName;
     public static List<Enemy> enemyList { get; private set; } = new List<Enemy>();
     [SerializeField]
     List<Item> lootTable;
-
-    private void Awake()
-    {
-        enemyList.Add(this);
-        hp.type = "HP";
-        dmg.type = "DMG";
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

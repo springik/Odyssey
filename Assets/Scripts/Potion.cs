@@ -12,14 +12,11 @@ public class Potion : Item
 
     private void Awake()
     {
-        healingAmount = StatManager.Instance.stats[StatManager.Instance.stats.IndexOf(StatManager.getStatOfType("HP"))].currVal * percentageHealingAmount / 100;
+        //get healing amount
     }
 
     public override void Use()
     {
-        //Debug.Log(StatManager.Instance);
-        StatManager.Instance.healDamage(healingAmount);
-        Debug.Log("healed");
-        Remove();
+        throw new NotImplementedException();
     }
 }

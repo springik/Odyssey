@@ -4,45 +4,34 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-[Serializable]
+[System.Serializable]
 public class Stat
 {
     [SerializeField]
     public string type;
     [SerializeField]
     int baseVal;
-    public int currVal { get; set; }
-    [SerializeField]
-    int maxVal;
-    int points = 0;
-    public int realVal { get; private set; }
+    public int points { get; private set; } = 0;
 
-    public void decreaseRealVal(int amount)
+    List<int> mods = new List<int>();
+    public void addPoint()
     {
-        if (realVal > 0)
-            realVal -= amount;
+        points++;
     }
-    public void increaseRealVal(int amount)
+    public int GetTotalValue()
     {
-        if(realVal < currVal)
-            realVal += amount;
-        Debug.Log(this.realVal);
+        int temp = baseVal + points;
+        mods.ForEach(item => temp += item);
+        return temp;
     }
-    public void calculateRealVal()
+    public void addMod(int mod)
     {
-        realVal = currVal;
+        if (mod != 0)
+            mods.Add(mod);
     }
-    public void CalculateStat()
+    public void removeMod(int mod)
     {
-        this.currVal = this.baseVal += this.points * 10;
-    }
-    public void AddPoint()
-    {
-        if (points >= maxVal)
-        {
-            return;
-        }
-        this.points++;
-        this.CalculateStat();
+        if(mod != 0)
+            mods.Remove(mod);
     }
 }

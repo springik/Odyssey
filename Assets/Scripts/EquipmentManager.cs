@@ -22,9 +22,6 @@ public class EquipmentManager : MonoBehaviour
     Inventory inventory;
     public delegate void onEquipChange(Equipment newItem, Equipment oldItem);
     public onEquipChange onEquipChanged;
-    //zero parameter callback
-    public delegate void onEquipChangeZ();
-    public onEquipChangeZ onEquipChangedZ;
 
     private void Start()
     {
@@ -46,10 +43,8 @@ public class EquipmentManager : MonoBehaviour
         currEquip[slotIndex] = equip;
 
         if (onEquipChanged != null)
-        {
             onEquipChanged.Invoke(equip, oldItem);
-            onEquipChangedZ.Invoke();
-        }
+        
     }
     public void Unequip(int slotIndex)
     {
@@ -59,10 +54,8 @@ public class EquipmentManager : MonoBehaviour
             inventory.AddItem(oldItem);
             currEquip[slotIndex] = null;
             if (onEquipChanged != null)
-            {
                 onEquipChanged.Invoke(null, oldItem);
-                onEquipChangedZ.Invoke();
-            }
+            
         }
     }
 }

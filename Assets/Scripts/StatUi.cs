@@ -1,66 +1,50 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using System;
+using System.Linq;
+using UnityEngine.UIElements;
 
-public class StatUi : MonoBehaviour
+public class StatUI : MonoBehaviour
 {
     [SerializeField]
-    List<TMP_Text> textList;
+    PlayerStats playerStats;
+    List<StatParent> parents;
     [SerializeField]
-    TMP_Text expDis;
+    TMP_Text pointText;
     [SerializeField]
-    GameObject parentGO;
-    [SerializeField]
-    KeyCode bindKey;
+    GameObject panel;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        UpdateUi();
-        EquipmentManager.Instance.onEquipChangedZ += UpdateUi;
-        parentGO.SetActive(false);
-    }
     private void Update()
     {
-        if (Input.GetKeyDown(bindKey))
-        {
-            parentGO.SetActive(!parentGO.activeSelf);
-        }
+        if(Input.GetKeyDown(KeyCode.C))
+            panel.SetActive(!panel.activeSelf);
+    }
+    private void Awake()
+    {
+        parents = GetComponentsInChildren<StatParent>().ToList<StatParent>();
+        playerStats.onStatChanged += UpdateUi;
+        playerStats.onLevelUp += UpdateUi;
+        panel.SetActive(false);
     }
 
-    public void UpdateUi()
+    void UpdateUi()
     {
-        expDis.text = StatManager.Instance.statPoints.ToString();
-        textList.ForEach(item => Debug.Log(this));
-        for (int i = 0; i < textList.Count; i++)
+        Stat stat;
+        foreach (StatParent parent in parents)
         {
-            textList[i].text = StatManager.Instance.stats[i].type + ": " + StatManager.Instance.stats[i].currVal.ToString() + "\n + " + getModifiers(StatManager.Instance.stats[i].type);
-            Debug.Log(textList[i].text);
+            stat = playerStats.findStat(parent.statType);
+            parent.text.text = stat.type + ": " + stat.GetTotalValue();
         }
+        pointText.text = playerStats.availablePoints.ToString();
     }
 
-    private string getModifiers(string statType)
+    public void addToStat(string type)
     {
-        int sum = 0;
-        foreach (Equipment equip in EquipmentManager.Instance.currEquip)
-        {
-            if (equip != null)
-            {
-                if (statType == "ARM")
-                {
-                    sum += equip.defenseModifier;
-                }
-                if (statType == "DMG")
-                {
-                    sum += equip.damageModifier;
-                }
-            }
-        }
-        return sum.ToString();
+        playerStats.addToStat(type);
+        UpdateUi();
     }
 }

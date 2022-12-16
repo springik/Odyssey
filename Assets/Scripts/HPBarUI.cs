@@ -9,9 +9,7 @@ public class HPBarUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider = GetComponentInChildren<Slider>();
-        slider.maxValue = StatManager.getStatOfType("HP").realVal;
-        StatManager.Instance.statsChanged += OnStatsChanged;
+
     }
 
     // Update is called once per frame
@@ -21,7 +19,6 @@ public class HPBarUI : MonoBehaviour
     }
     void OnStatsChanged(float value)
     {
-        slider.maxValue = StatManager.getStatOfType("HP").realVal;
-        slider.value = value;
+
     }
 }
